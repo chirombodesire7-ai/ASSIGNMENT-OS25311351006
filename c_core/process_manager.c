@@ -1,97 +1,41 @@
 #include <stdio.h>
 #include "process_manager.h"
-#include "logger.h"
 
-void init_processes(PCB processes[], int size)
-{
-    for (int i = 0; i < size; i++)
-    {
-        processes[i].waiting_time = 0;
-        processes[i].turnaround_time = 0;
-    }
-}
-
-void print_processes(PCB processes[], int size)
+void display_processes(PCB processes[], int n)
 {
     printf("\nPROCESS LIST\n\n");
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < n; i++)
     {
         printf(
-            "PID: %d | NAME: %s | BT: %d | PRIORITY: %d\n",
+            "PID: %d | NAME: %s | BURST: %d\n",
             processes[i].pid,
             processes[i].name,
-            processes[i].burst_time,
-            processes[i].priority
+            processes[i].burst_time
         );
     }
 }
 
-
-
-void rr_schedule(PCB processes[], int size, int quantum){
-
-    int remaining[size];
-    int i;
-
-    printf("\nROUND ROBIN SCHEDULING\n");
-
-for (i = 0; i < size; i++)
+void calculate_averages(PCB processes[], int n)
 {
-    remaining[i] = processes[i].burst_time;
-}
+    float total_wt = 0;
+    float total_tat = 0;
 
-int current_time = 0;
-int done;
-
-do
-{
-    done = 1;
-
-    for (i = 0; i < size; i++)
+    for (int i = 0; i < n; i++)
     {
-        if (remaining[i] > 0)
-        {
-            done = 0;
-
-            if (remaining[i] > quantum)
-            {
-                current_time += quantum;
-                remaining[i] -= quantum;
-            }
-            else
-            {
-                current_time += remaining[i];
-                processes[i].turnaround_time = current_time;
-                processes[i].waiting_time =
-                    processes[i].turnaround_time - processes[i].burst_time;
-
-                remaining[i] = 0;
-            }
-        }
+        total_wt += processes[i].waiting_time;
+        total_tat += processes[i].turnaround_time;
     }
-}
-while (!done);
 
-printf("\nResults:\n");
+    printf("\nAVERAGES\n\n");
 
-float total_wt = 0;
-float total_tat = 0;
+    printf(
+        "Average Waiting Time: %.2f\n",
+        total_wt / n
+    );
 
-for (i = 0; i < size; i++)
-{
-    total_wt += processes[i].waiting_time;
-    total_tat += processes[i].turnaround_time;
-
-    printf("PID %d | WT %d | TAT %d\n",
-        processes[i].pid,
-        processes[i].waiting_time,
-        processes[i].turnaround_time
+    printf(
+        "Average Turnaround Time: %.2f\n",
+        total_tat / n
     );
 }
-
-printf("\nAverage WT: %.2f\n", total_wt / size);
-printf("Average TAT: %.2f\n", total_tat / size);
-
-}
-
