@@ -3,6 +3,10 @@
 
 #include "eduos.h"
 
-void export_processes_json(PCB processes[], int size, const char *filename);
+void export_snapshot(
+    PCB processes[],
+    int size,
+    const char *algorithm
+);
 
 #endif

@@ -11,4 +11,6 @@ void fcfs_schedule(PCB processes[], int size);
 void sjf_schedule(PCB processes[], int size);
 void rr_schedule(PCB processes[], int size, int quantum);
 void export_fcfs_snapshot(PCB processes[], int size);
+void export_snapshot(PCB processes[], int size, const char *algorithm);
+
 #endif
