@@ -1,20 +1,12 @@
-import json
 import subprocess
 import os
 
-C_EXEC = "../c_core/eduos.exe"
-JSON_FILE = "../c_core/pcb_snapshot.json"
+def run_c_scheduler(choice=1):
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    exe_path = os.path.join(project_root, "c_core", "eduos.exe")
 
-def run_c_scheduler(choice, quantum=None):
-    if quantum is None:
-        cmd = [C_EXEC]
-    else:
-        cmd = [C_EXEC]
+    if not os.path.exists(exe_path):
+        print("Missing C executable:", exe_path)
+        return
 
-    process = subprocess.Popen(cmd)
-    process.wait()
-
-    with open(JSON_FILE, "r") as f:
-        data = json.load(f)
-
-    return data
+    subprocess.run([exe_path], cwd=os.path.dirname(exe_path))

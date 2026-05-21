@@ -1,14 +1,12 @@
 import json
 
-def generate_report(data):
-    report_path = "../logs/controller_report.txt"
+def generate_report():
+    with open("c_core/pcb_snapshot.json", "r") as f:
+        data = json.load(f)
 
-    with open(report_path, "w") as f:
-        f.write("EDU OS REPORT\n\n")
+    processes = data["processes"]
 
-        for p in data:
-            f.write(
-                f"PID {p['pid']} WT {p['waiting_time']} TAT {p['turnaround_time']}\n"
-            )
-
-    print("Report saved")
+    with open("logs/eduos_report.txt", "w") as f:
+        for p in processes:
+            f.write(f"PID {p['pid']} WT {p['wt']} TAT {p['tat']}\n")
+            
