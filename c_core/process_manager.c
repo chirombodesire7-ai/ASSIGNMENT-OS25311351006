@@ -193,4 +193,33 @@ for (i = 0; i < size; i++)
 
 printf("\nAverage WT: %.2f\n", total_wt / size);
 printf("Average TAT: %.2f\n", total_tat / size);
+
+}
+
+void export_fcfs_snapshot(PCB processes[], int size){
+    FILE *f = fopen("pcb_snapshot.json", "w");
+    if (f == NULL)
+{
+    printf("Failed to create snapshot file\n");
+    return;
+}
+
+fprintf(f, "{\n  \"fcfs_snapshot\": [\n");
+
+for (int i = 0; i < size; i++)
+{
+    fprintf(f,
+        "    {\"pid\": %d, \"wt\": %d, \"tat\": %d}%s\n",
+        processes[i].pid,
+        processes[i].waiting_time,
+        processes[i].turnaround_time,
+        (i == size - 1) ? "" : ","
+    );
+}
+
+fprintf(f, "  ]\n}\n");
+
+fclose(f);
+
+printf("\nSnapshot saved to pcb_snapshot.json\n");
 }
