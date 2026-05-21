@@ -18,6 +18,7 @@ int main()
     fcfs_schedule(processes, 4);
     
     sjf_schedule(processes, 4);
+    rr_schedule(processes, 4, 2);
 
     return 0;
 }
