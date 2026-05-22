@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include "pcb_serializer.h"
 
-void export_snapshot(
-    PCB processes[],
-    int size,
-    const char *algorithm
-)
+void export_snapshot(PCB processes[], int size, const char *algorithm)
 {
     FILE *f = fopen("pcb_snapshot.json", "w");
 
@@ -24,13 +20,11 @@ void export_snapshot(
         fprintf(
             f,
             "    {\"pid\": %d, \"name\": \"%s\", \"burst\": %d, \"wt\": %d, \"tat\": %d}%s\n",
-
             processes[i].pid,
             processes[i].name,
             processes[i].burst_time,
             processes[i].waiting_time,
             processes[i].turnaround_time,
-
             (i == size - 1) ? "" : ","
         );
     }
@@ -38,7 +32,8 @@ void export_snapshot(
     fprintf(f, "  ]\n");
     fprintf(f, "}\n");
 
+    fflush(f);
     fclose(f);
 
-    printf("\nSnapshot exported successfully\n");
+    printf("Snapshot exported successfully\n");
 }
