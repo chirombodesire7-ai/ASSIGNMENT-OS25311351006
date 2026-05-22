@@ -2,7 +2,7 @@ import json
 import matplotlib.pyplot as plt
 
 def draw_gantt():
-    with open("../c_core/pcb_snapshot.json", "r") as f:
+    with open("c_core/pcb_snapshot.json", "r") as f:
         data = json.load(f)
 
     pids = [p["pid"] for p in data]

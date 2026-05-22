@@ -1,0 +1,17 @@
+# executables
+*.exe
+c_core/*.exe
+
+# build artifacts
+*.o
+
+# logs and outputs
+logs/
+*.log
+*.json
+
+# python cache
+__pycache__/
+
+# wrong duplicate folders
+c_core/c_core/
