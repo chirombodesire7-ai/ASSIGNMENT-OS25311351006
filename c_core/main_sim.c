@@ -5,13 +5,14 @@
 #include "ipc_module.h"
 #include "deadlock_demo.h"
 #include "shared_memory.h"
+#include "mutex_demo.h"
 
 int main()
 {
     int choice = -1;
     int quantum = 2;
 
-    PCB processes[4] =
+    PCB base_processes[4] =
     {
         {1, "Chrome", 6, 2, 0, 0, 0},
         {2, "VSCode", 3, 1, 0, 0, 0},
@@ -21,6 +22,13 @@ int main()
 
     while (choice != 0)
     {
+        PCB processes[4];
+
+        for (int i = 0; i < 4; i++)
+        {
+            processes[i] = base_processes[i];
+        }
+
         printf("\n============================\n");
         printf("      EDU OS SCHEDULER\n");
         printf("============================\n");
@@ -33,6 +41,7 @@ int main()
         printf("6. IPC (Producer Consumer)\n");
         printf("7. DEADLOCK DETECTION\n");
         printf("8. SHARED MEMORY\n");
+        printf("9. MUTEX DEMO\n");
         printf("0. EXIT\n");
 
         printf("\nSelect option: ");
@@ -74,8 +83,7 @@ int main()
         }
         else if (choice == 6)
         {
-            int sub;
-            int item;
+            int sub, item;
 
             printf("\nIPC MENU\n");
             printf("1. Produce\n");
@@ -99,10 +107,6 @@ int main()
             {
                 show_buffer();
             }
-            else
-            {
-                printf("Invalid IPC option\n");
-            }
         }
         else if (choice == 7)
         {
@@ -111,6 +115,10 @@ int main()
         else if (choice == 8)
         {
             shared_memory_demo();
+        }
+        else if (choice == 9)
+        {
+            run_mutex_demo();
         }
         else if (choice == 0)
         {
