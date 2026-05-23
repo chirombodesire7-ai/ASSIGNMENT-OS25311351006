@@ -1,24 +1,50 @@
 from gantt import draw
+from metrics import calculate_metrics, print_metrics
+
 
 def run(processes):
-    processes = sorted(processes, key=lambda x: x["priority"])
+
+    processes = sorted(
+        processes,
+        key=lambda x: x["priority"]
+    )
+
     time = 0
     log = []
 
     print("\nPRIORITY SCHEDULING\n")
 
     for p in processes:
-        start = time
-        end = time + p["burst"]
 
-        print(f"P{p['pid']} | WT={start} | TAT={end}")
+        start = time
+        end = start + p["burst"]
+
+        wt = start
+        tat = end
+
+        print(f"P{p['pid']} | WT={wt} | TAT={tat}")
 
         log.append({
             "pid": p["pid"],
             "start": start,
-            "end": end
+            "end": end,
+            "burst": p["burst"],
+            "wt": wt,
+            "tat": tat
         })
 
         time = end
 
     draw(log)
+
+    metrics = calculate_metrics(
+        processes,
+        log
+    )
+
+    print_metrics(
+        "PRIORITY",
+        metrics
+    )
+
+    return log

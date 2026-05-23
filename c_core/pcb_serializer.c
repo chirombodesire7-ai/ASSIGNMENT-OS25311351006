@@ -5,7 +5,7 @@ void export_snapshot(PCB processes[], int size, const char *algorithm)
 {
     FILE *f = fopen("pcb_snapshot.json", "w");
 
-    if (f == NULL)
+    if (!f)
     {
         printf("Snapshot file error\n");
         return;
@@ -25,14 +25,13 @@ void export_snapshot(PCB processes[], int size, const char *algorithm)
             processes[i].burst_time,
             processes[i].waiting_time,
             processes[i].turnaround_time,
-            (i == size - 1) ? "" : ","
+            (i < size - 1) ? "," : ""
         );
     }
 
     fprintf(f, "  ]\n");
     fprintf(f, "}\n");
 
-    fflush(f);
     fclose(f);
 
     printf("Snapshot exported successfully\n");
