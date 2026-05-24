@@ -1,19 +1,33 @@
-import json
 import matplotlib.pyplot as plt
 
-def draw_gantt():
-    with open("c_core/pcb_snapshot.json", "r") as f:
-        data = json.load(f)
 
-    pids = [p["pid"] for p in data]
-    wt = [p["waiting_time"] for p in data]
-    tat = [p["turnaround_time"] for p in data]
+def draw_gantt(data):
 
-    plt.bar(pids, tat)
-    plt.xlabel("Process ID")
-    plt.ylabel("Turnaround Time")
-    plt.title("EDU OS Gantt View")
+    fig, ax = plt.subplots()
+
+    y = 10
+
+    for p in data:
+
+        start = p["start"]
+        duration = p["end"] - p["start"]
+
+        ax.broken_barh(
+            [(start, duration)],
+            (y, 5)
+        )
+
+        ax.text(
+            start + duration / 2,
+            y + 2,
+            f'P{p["pid"]}',
+            ha='center',
+            va='center',
+            color='black'
+        )
+
+    ax.set_xlabel("Time")
+    ax.set_ylabel("Processes")
+    ax.set_title("Gantt Chart")
+
     plt.show()
-
-if __name__ == "__main__":
-    draw_gantt()

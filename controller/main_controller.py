@@ -1,15 +1,17 @@
-from process_bridge import run_c_scheduler
-from report_generator import generate_report
 from gantt_chart import draw_gantt
 
+
 def main():
-    print("RUNNING EDU OS CONTROLLER")
 
-    run_c_scheduler(choice=1)
+    data = [
+        {"pid": 1, "start": 0, "end": 6},
+        {"pid": 2, "start": 6, "end": 9},
+        {"pid": 3, "start": 9, "end": 17},
+        {"pid": 4, "start": 17, "end": 21}
+    ]
 
-    generate_report()
+    draw_gantt(data)
 
-    draw_gantt()
 
 if __name__ == "__main__":
     main()
